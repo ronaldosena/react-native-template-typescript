@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,7 +16,9 @@ import {
   View,
   Text,
   StatusBar,
-} from 'react-native';
+  TextInput,
+  Button,
+} from "react-native";
 
 import {
   Header,
@@ -24,18 +26,26 @@ import {
   Colors,
   DebugInstructions,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from "react-native/Libraries/NewAppScreen";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteParams } from "~/Routes";
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
-const App = () => {
+interface Props {
+  navigation: BottomTabNavigationProp<RouteParams>;
+}
+
+const Home: React.FC<Props> = ({ navigation }) => {
+  const [value, onChangeText] = React.useState("Useless Placeholder");
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+        >
           <Header />
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
@@ -43,6 +53,23 @@ const App = () => {
             </View>
           )}
           <View style={styles.body}>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Navigation</Text>
+              <Text style={styles.sectionDescription}>
+                Using react-navigation to handle that!
+              </Text>
+              <TextInput
+                style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+                onChangeText={(text) => onChangeText(text)}
+                value={value}
+              />
+              <Button
+                title="Go to about passing this arg"
+                onPress={() => {
+                  navigation.navigate("About", { content: value });
+                }}
+              />
+            </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
@@ -76,12 +103,14 @@ const App = () => {
   );
 };
 
+export default Home;
+
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
   },
   engine: {
-    position: 'absolute',
+    position: "absolute",
     right: 0,
   },
   body: {
@@ -93,26 +122,24 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.black,
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
     color: Colors.dark,
   },
   highlight: {
-    fontWeight: '700',
+    fontWeight: "700",
   },
   footer: {
     color: Colors.dark,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
     padding: 4,
     paddingRight: 12,
-    textAlign: 'right',
+    textAlign: "right",
   },
 });
-
-export default App;

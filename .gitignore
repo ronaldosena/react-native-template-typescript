@@ -1,3 +1,7 @@
 node_modules/
 .vscode/
 .DS_Store
+
+# template/node_modules
+template/android/app/build
+template/android/.gradle
